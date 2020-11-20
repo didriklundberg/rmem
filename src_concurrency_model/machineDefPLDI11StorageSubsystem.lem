@@ -35,10 +35,15 @@ open import MachineDefUI
             
 (* emacs fontification -*-caml-*- *)
 
+val print_string : string -> unit
+declare ocaml    target_rep function print_string = `Debug.print_string`
+declare isabelle target_rep function print_string = `nothing1`
+declare hol      target_rep function print_string = `nothing1`
 
 val set_writes_seen : integer -> unit
 declare ocaml    target_rep function set_writes_seen = `Debug.set_writes_seen`
 declare isabelle target_rep function set_writes_seen = `nothing1`
+declare hol      target_rep function set_writes_seen = `nothing1`
 
 (** auxiliary library functions (these could move to the Lem library) *)
 
@@ -775,13 +780,11 @@ let pldi11_enumerate_transitions_of_storage_subsystem
       : set (ss_trans pldi11_storage_subsystem_state)
      = 
   let all_writes = s.writes_seen in
-
   let () = print_string "writes seen " in
   let () =
     let n_debug = integerFromNat (Set.size all_writes) in
     let () = print_integer n_debug in let () = print_string "\n" in
     set_writes_seen n_debug in
-
   let all_barriers = barriers_seen s in 
   (* partial coherence commit *)
   let pcc = 

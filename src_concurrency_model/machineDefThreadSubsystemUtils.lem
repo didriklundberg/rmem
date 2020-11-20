@@ -42,7 +42,8 @@ open import MachineDefUI
 
 val catch_thread_errors : forall 'a. thread_id -> ioid -> (unit -> 'a) -> 'a
 declare ocaml target_rep function catch_thread_errors = `Debug.catch_thread_errors`
-
+(* TODO: Look at "catch_thread_errors" in debug.ml and adapt? *)
+declare hol target_rep function catch_thread_errors t_id io_id c = c ()
 
 (** subreads and subwrites *)
 

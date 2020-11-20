@@ -36,11 +36,11 @@ let inline ensure_just (a : maybe 'a) (err : string) : 'a =
 
 (* two auxiliary functions for dealing with maps in Isabelle *)
 val mapToList: forall 'k 'v. MapKeyType 'k, SetType 'k, SetType 'v => map 'k 'v -> list ('k * 'v)
-let {coq;ocaml} mapToList = Map_extra.toList
+let {coq;ocaml;hol} mapToList = Map_extra.toList
 let {isabelle}  mapToList l = Set_extra.toList (Map.toSet l)
 
 val mapi : forall 'k 'v 'w. MapKeyType 'k, SetType 'k, SetType 'v => ('k -> 'v -> 'w) -> map 'k 'v -> map 'k 'w
-let {isabelle;coq} mapi f m =
+let {isabelle;coq;hol} mapi f m =
   Map.fromList (map (fun (k,v) -> (k,f k v)) ((mapToList m) : list ('k * 'v)))
 let inline {ocaml} mapi = (Map.mapi)
 
@@ -218,6 +218,7 @@ let nothing2 _ _ = ()
 val print_integer : integer -> unit
 declare ocaml    target_rep function print_integer = `Debug.print_integer`
 declare isabelle target_rep function print_integer = `nothing1`
+declare hol target_rep function print_integer = `nothing1`
 
 
 (** relon is a relation over a set (useful when the domain of the

@@ -37,7 +37,9 @@ open import PromisingTransitions
 open import PromisingThread
 open import PromisingStorage
 
-
+val print_endline : string -> unit
+declare ocaml    target_rep function print_endline = `print_endline`
+declare hol      target_rep function print_endline = `nothing1`
 
 type p_state 'i 'ts 'ss 'v =
   <| p_program_memory:        (address -> fetch_and_decode_outcome 'i);

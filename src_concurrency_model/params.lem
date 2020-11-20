@@ -4,6 +4,7 @@ open import InstructionSemantics
 open import Events
 open import Fragments
 open import Isa
+open import Utils
 
 
 (** model parameters *)
@@ -262,16 +263,18 @@ let branch_targets_to_list
   $> Map.map Map_extra.toList
   $> Map_extra.toList
 
+(* Map.mapi is not defined for HOL4, so this has been switched to the
+ * mapi defined in utils.lem *)
 let union_and_diff_branch_targets
     (branch_targets_lhs: branch_targets_map)
     (branch_targets_rhs: branch_targets_map)
     : branch_targets_map * list (thread_id * list (address * list address))
   =
   let diff =
-    Map.mapi
+    mapi
       (fun tid tbts_lhs ->
         let tbts_rhs = Map.findWithDefault tid Map.empty branch_targets_rhs in
-        Map.mapi
+        mapi
           (fun addr addrs_lhs ->
             Map.findWithDefault addr {} tbts_rhs
             $> Set.difference addrs_lhs
